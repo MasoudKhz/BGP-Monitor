@@ -109,7 +109,9 @@ sudo make install
 * Create your nfacctd (a binary installed with pmacct) configuration file with the following information. Modify the highlighted areas to add your relevant information. Verify nfacctd is working before removing the # in front of daemonize so logs are displayed at the terminal. Once you know everything is working uncomment this and restart nfacctd.
 ```
 plugins: kafka
+# Interface :
 pcap_interface: ens192
+# Interface IP
 nfacctd_ip: 2.189.3.152
 nfacctd_port: 20013
 nfacctd_time_new: true
@@ -120,22 +122,25 @@ bgp_peer_src_as_type: bgp
 bgp_src_as_path_type: bgp
 
 kafka_topic: pmacct
-#kafka_history:20m
-#kafka_history_roundoff: m
+kafka_history:20m
+kafka_history_roundoff: m
+# Your Kafka Server IP
 kafka_broker_host: 2.189.3.153
 kafka_broker_port: 9092
 kafka_refresh_time: 1
 kafka_refresh_time: 10
 
 bgp_table_dump_kafka_topic: pmacct.bgp
-bgp_table_dump_refresh_time: 60
+bgp_table_dump_refresh_time: 600
 bgp_daemon: true
 bgp_src_lrg_comm_type: bgp
+# BGP deamon IP
 bgp_daemon_ip: 2.189.3.152
+# Max number of peer
 bgp_daemon_max_peers: 100
 nfacctd_net: bgp
 nfacctd_as: bgp
+# Your BGP ASN :
 bgp_daemon_as: 5000
-bgp_agent_map: ./bgp.map
 aggregate: src_host, dst_host,in_iface, out_iface, timestamp_start, timestamp_end, src_port, dst_port, proto, tos, tcpflags, tag, src_as, dst_as, peer_src_as, peer_dst_as, peer_src_ip, peer_dst_ip, local_pref, as_path
 ```
