@@ -19,6 +19,7 @@ export JANSSON_CFLAGS="-I/usr/local/include/"
 export JANSSON_LIBS="-L/usr/local/lib -ljansson"
 pip3 install --upgrade pip
 pip3 install virtualenv
+pip install -r requirements.txt
 ```
 
 * Clone project from git
@@ -108,6 +109,9 @@ sudo make install
 
 * Create your nfacctd (a binary installed with pmacct) configuration file with the following information. Modify the highlighted areas to add your relevant information. Verify nfacctd is working before removing the # in front of daemonize so logs are displayed at the terminal. Once you know everything is working uncomment this and restart nfacctd.
 ```
+vim /usr/local/pmacct/nfacctd.conf
+```
+```
 plugins: kafka
 # Interface :
 pcap_interface: ens192
@@ -143,4 +147,9 @@ nfacctd_as: bgp
 # Your BGP ASN :
 bgp_daemon_as: 5000
 aggregate: src_host, dst_host,in_iface, out_iface, timestamp_start, timestamp_end, src_port, dst_port, proto, tos, tcpflags, tag, src_as, dst_as, peer_src_as, peer_dst_as, peer_src_ip, peer_dst_ip, local_pref, as_path
+```
+
+* SET retention time of Kafka
+```
+/usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
 ```
