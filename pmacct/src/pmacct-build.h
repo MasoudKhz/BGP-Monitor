@@ -1,0 +1,4 @@
+#ifndef PMACCT_BUILD_STR
+#define PMACCT_BUILD_STR
+#define PMACCT_BUILD "RELEASE"
+#endif
