@@ -32,6 +32,7 @@ pip install -r requirements.txt
 * Install Jansson 
 ```
 cd /usr/local/BGP-Monitor/jansson
+sudo apt-get install libtool -y
 autoreconf --force --install
 ./configure
 make
@@ -103,7 +104,6 @@ sudo systemctl enable kafka
 
 * Install Pmacct
 ```
-sudo apt-get install libtool -y
 cd /usr/local/BGP-Monitor/pmacct/
 ./configure --enable-kafka --enable-jansson --enable-bgp-bins
 sudo make
