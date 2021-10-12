@@ -104,7 +104,7 @@ sudo systemctl enable kafka
 
 * Install Pmacct
 ```
-cd /usr/local/pmacct/
+cd /usr/local/BGP-Monitor/pmacct/
 ./configure --enable-kafka --enable-jansson --enable-bgp-bins
 sudo make
 sudo make install
