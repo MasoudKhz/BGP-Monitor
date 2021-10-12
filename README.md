@@ -25,7 +25,7 @@ pip install -r requirements.txt
 * Clone project from git
 ```
 cd /usr/local
-git clone ...
+git clone https://github.com/MasoudKhz/BGP-Monitor.git
 ```
 
 * Install Jansson 
