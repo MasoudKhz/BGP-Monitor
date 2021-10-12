@@ -26,12 +26,13 @@ pip3 install virtualenv
 ```
 cd /usr/local
 git clone https://github.com/MasoudKhz/BGP-Monitor.git
+cd BGP-Monitor
 pip install -r requirements.txt
 ```
 
 * Install Jansson 
 ```
-cd /usr/local/jansson
+cd /usr/local/BGP-Monitor/jansson
 ./configure
 make
 make install
@@ -66,8 +67,8 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
-ExecStop=/usr/local/kafka/bin/zookeeper-server-stop.sh
+ExecStart=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
+ExecStop=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-stop.sh
 Restart=on-abnormal
 
 [Install]
@@ -86,8 +87,8 @@ Requires=zookeeper.service
 [Service]
 Type=simple
 Environment="JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64"
-ExecStart=/usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties
-ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh
+ExecStart=/usr/local/BGP-Monitor/kafka/bin/kafka-server-start.sh /usr/local/BGP-Monitor/kafka/config/server.properties
+ExecStop=/usr/local/BGP-Monitor/kafka/bin/kafka-server-stop.sh
 
 [Install]
 WantedBy=multi-user.target
@@ -110,7 +111,7 @@ sudo make install
 
 * Create your nfacctd (a binary installed with pmacct) configuration file with the following information. Modify the highlighted areas to add your relevant information. Verify nfacctd is working before removing the # in front of daemonize so logs are displayed at the terminal. Once you know everything is working uncomment this and restart nfacctd.
 ```
-vim /usr/local/pmacct/nfacctd.conf
+vim /usr/local/BGP-Monitor/pmacct/nfacctd.conf
 ```
 ```
 plugins: kafka
@@ -152,5 +153,5 @@ aggregate: src_host, dst_host,in_iface, out_iface, timestamp_start, timestamp_en
 
 * SET retention time of Kafka
 ```
-/usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
+/usr/local/BGP-Monitor/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
 ```
