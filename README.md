@@ -48,7 +48,7 @@ postgres=# CREATE TABLE kafka(id  SERIAL NOT NULL, PREFIX  VARCHAR(40) NOT NULL,
 );
 postgres=# CREATE TABLE kafka2(id  SERIAL NOT NULL, device_ip  VARCHAR(50)  NOT NULL, peer_ip  VARCHAR(50)  NOT NULL, peer_as  VARCHAR(50)  NOT NULL, nexthub  VARCHAR(50)   NOT NULL, prefix  VARCHAR(50)   NOT NULL, comm  VARCHAR(500)  NOT NULL, primary key(peer_ip, peer_as, nexthub, PREFIX, comm)
 );
-
+postgres=# ALTER DATABASE postgres RESET log_statement;
 postgres=# \q
 ```
 
