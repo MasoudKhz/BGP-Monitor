@@ -8,7 +8,7 @@ apt-get upgrade
 sudo apt-get install libpcap0.8 libpcap0.8-dev libpcap-dev -y
 sudo apt-get install librdkafka-dev -y
 sudo apt-get install librdkafka1 -y
-sudo apt-get install libtool
+sudo apt-get install libtool -y
 sudo apt-get install autoconf
 sudo apt-get install build-essential -y
 sudo apt-get install postgresql postgresql-contrib -y
