@@ -8,11 +8,11 @@ apt-get upgrade
 sudo apt-get install libpcap0.8 libpcap0.8-dev libpcap-dev -y
 sudo apt-get install librdkafka-dev -y
 sudo apt-get install librdkafka1 -y
-sudo apt-get install autoconf
 sudo apt-get install build-essential -y
 sudo apt-get install postgresql postgresql-contrib -y
 sudo apt install default-jdk -y
 sudo apt install python3-pip -y
+sudo apt-get install autoconf
 export KAFKA_LIBS="-L/usr/lib/x86_64-linux-gnu -lrdkafka"
 export KAFKA_CFLAGS="-I/usr/include/librdkafka"
 export JANSSON_CFLAGS="-I/usr/local/include/"
