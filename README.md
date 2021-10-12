@@ -5,7 +5,7 @@
 ``` 
 apt-get update
 apt-get upgrade
-sudo apt-get install libpcap0.8 libpcap0.8-dev libpcap-dev
+sudo apt-get install libpcap0.8 libpcap0.8-dev libpcap-dev -y
 sudo apt-get install librdkafka-dev -y
 sudo apt-get install librdkafka1 -y
 sudo apt-get install libtool
