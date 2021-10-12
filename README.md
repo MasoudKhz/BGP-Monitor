@@ -33,6 +33,7 @@ pip install -r requirements.txt
 * Install Jansson 
 ```
 cd /usr/local/BGP-Monitor/jansson
+autoreconf --force --install
 ./configure
 make
 make install
