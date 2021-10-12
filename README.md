@@ -20,13 +20,13 @@ export JANSSON_CFLAGS="-I/usr/local/include/"
 export JANSSON_LIBS="-L/usr/local/lib -ljansson"
 pip3 install --upgrade pip
 pip3 install virtualenv
-pip install -r requirements.txt
 ```
 
 * Clone project from git
 ```
 cd /usr/local
 git clone https://github.com/MasoudKhz/BGP-Monitor.git
+pip install -r requirements.txt
 ```
 
 * Install Jansson 
