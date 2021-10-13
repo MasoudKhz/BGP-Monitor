@@ -153,8 +153,8 @@ bgp_daemon_as: 5000
 aggregate: src_host, dst_host,in_iface, out_iface, timestamp_start, timestamp_end, src_port, dst_port, proto, tos, tcpflags, tag, src_as, dst_as, peer_src_as, peer_dst_as, peer_src_ip, peer_dst_ip, local_pref, as_path
 ```
 
-* Start nfacctd
-Nfacctd (included with pmacct) can be started with the configuration above. This will start a process that listens for incoming network flows. Once you have added the nfacctd daemon as a neighbor in your router (next bullet down) you should also see BGP state move to OPEN state with your router.
+# Start nfacctd
+* Nfacctd (included with pmacct) can be started with the configuration above. This will start a process that listens for incoming network flows. Once you have added the nfacctd daemon as a neighbor in your router (next bullet down) you should also see BGP state move to OPEN state with your router.
 ```
 sudo nfacctd -f ./nfacct.conf
 ```
