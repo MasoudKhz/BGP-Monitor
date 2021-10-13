@@ -68,7 +68,7 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
+ExecStart=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-start.sh /usr/local/BGP-Monitor/kafka/config/zookeeper.properties
 ExecStop=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-stop.sh
 Restart=on-abnormal
 
