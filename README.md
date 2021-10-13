@@ -47,7 +47,7 @@ sudo -u postgres psql
 postgres=# CREATE DATABASE postgres;
 postgres=# CREATE USER postgres WITH PASSWORD 'admin@123456';
 postgres=# GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
-postgres=# \connect pmacct
+postgres=# ALTER USER pmacct WITH SUPERUSER; 
 postgres=# CREATE TABLE peer_state(peer_ip VARCHAR(20) NOT NULL, state VARCHAR(5) NOT NULL, primary key(peer_ip));
 postgres=# CREATE TABLE kafka(id  SERIAL NOT NULL, PREFIX  VARCHAR(40) NOT NULL, PEER  VARCHAR(40)  NOT NULL, AS_PATH  VARCHAR(300)  NOT NULL, COMMUNITIES  VARCHAR(300)  NOT NULL, LCOMMUNITIES  VARCHAR(300)  NOT NULL, primary key(PREFIX, PEER, AS_PATH, COMMUNITIES)
 );
