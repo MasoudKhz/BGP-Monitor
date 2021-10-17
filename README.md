@@ -23,7 +23,7 @@ pip3 install --upgrade pip
 pip3 install virtualenv
 ```
 
-* Clone project from git
+* Download project from git
 ```
 cd /usr/local
 wget https://github.com/MasoudKhz/BGP-Monitor/archive/refs/heads/master.zip
