@@ -5,32 +5,36 @@
 ``` 
 apt-get update
 apt-get upgrade
-sudo apt-get install libpcap0.8 libpcap0.8-dev libpcap-dev
+sudo apt-get install libpcap0.8 libpcap0.8-dev libpcap-dev -y
 sudo apt-get install librdkafka-dev -y
 sudo apt-get install librdkafka1 -y
-sudo apt-get install libtool
-sudo apt-get install autoconf
 sudo apt-get install build-essential -y
 sudo apt-get install postgresql postgresql-contrib -y
 sudo apt install default-jdk -y
+sudo apt install python3-pip -y
+sudo apt-get install autoconf
+sudo apt-get install libjansson-dev
 export KAFKA_LIBS="-L/usr/lib/x86_64-linux-gnu -lrdkafka"
 export KAFKA_CFLAGS="-I/usr/include/librdkafka"
 export JANSSON_CFLAGS="-I/usr/local/include/"
 export JANSSON_LIBS="-L/usr/local/lib -ljansson"
 pip3 install --upgrade pip
 pip3 install virtualenv
-pip install -r requirements.txt
 ```
 
 * Clone project from git
 ```
 cd /usr/local
 git clone https://github.com/MasoudKhz/BGP-Monitor.git
+cd BGP-Monitor
+pip install -r requirements.txt
 ```
 
 * Install Jansson 
 ```
-cd /usr/local/jansson
+cd /usr/local/BGP-Monitor/jansson
+sudo apt-get install libtool -y
+autoreconf --force --install
 ./configure
 make
 make install
@@ -43,6 +47,7 @@ sudo -u postgres psql
 postgres=# CREATE DATABASE postgres;
 postgres=# CREATE USER postgres WITH PASSWORD 'admin@123456';
 postgres=# GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+postgres=# ALTER USER pmacct WITH SUPERUSER; 
 postgres=# CREATE TABLE peer_state(peer_ip VARCHAR(20) NOT NULL, state VARCHAR(5) NOT NULL, primary key(peer_ip));
 postgres=# CREATE TABLE kafka(id  SERIAL NOT NULL, PREFIX  VARCHAR(40) NOT NULL, PEER  VARCHAR(40)  NOT NULL, AS_PATH  VARCHAR(300)  NOT NULL, COMMUNITIES  VARCHAR(300)  NOT NULL, LCOMMUNITIES  VARCHAR(300)  NOT NULL, primary key(PREFIX, PEER, AS_PATH, COMMUNITIES)
 );
@@ -65,8 +70,8 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
-ExecStop=/usr/local/kafka/bin/zookeeper-server-stop.sh
+ExecStart=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-start.sh /usr/local/BGP-Monitor/kafka/config/zookeeper.properties
+ExecStop=/usr/local/BGP-Monitor/kafka/bin/zookeeper-server-stop.sh
 Restart=on-abnormal
 
 [Install]
@@ -85,8 +90,8 @@ Requires=zookeeper.service
 [Service]
 Type=simple
 Environment="JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64"
-ExecStart=/usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties
-ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh
+ExecStart=/usr/local/BGP-Monitor/kafka/bin/kafka-server-start.sh /usr/local/BGP-Monitor/kafka/config/server.properties
+ExecStop=/usr/local/BGP-Monitor/kafka/bin/kafka-server-stop.sh
 
 [Install]
 WantedBy=multi-user.target
@@ -101,7 +106,7 @@ sudo systemctl enable kafka
 
 * Install Pmacct
 ```
-cd /usr/local/pmacct/
+cd /usr/local/BGP-Monitor/pmacct/
 ./configure --enable-kafka --enable-jansson --enable-bgp-bins
 sudo make
 sudo make install
@@ -109,7 +114,7 @@ sudo make install
 
 * Create your nfacctd (a binary installed with pmacct) configuration file with the following information. Modify the highlighted areas to add your relevant information. Verify nfacctd is working before removing the # in front of daemonize so logs are displayed at the terminal. Once you know everything is working uncomment this and restart nfacctd.
 ```
-vim /usr/local/pmacct/nfacctd.conf
+vim /usr/local/BGP-Monitor/pmacct/nfacctd.conf
 ```
 ```
 plugins: kafka
@@ -149,7 +154,21 @@ bgp_daemon_as: 5000
 aggregate: src_host, dst_host,in_iface, out_iface, timestamp_start, timestamp_end, src_port, dst_port, proto, tos, tcpflags, tag, src_as, dst_as, peer_src_as, peer_dst_as, peer_src_ip, peer_dst_ip, local_pref, as_path
 ```
 
+* **Start nfacctd** -> 
+Nfacctd (included with pmacct) can be started with the configuration above. This will start a process that listens for incoming network flows. Once you have added the nfacctd daemon as a neighbor in your router (next bullet down) you should also see BGP state move to OPEN state with your router.
+```
+sudo nfacctd -f /usr/local/BGP-Monitor/pmacct/nfacctd.conf
+```
 * SET retention time of Kafka
 ```
-/usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
+/usr/local/BGP-Monitor/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
+```
+* **Edit Crontab**
+```
+#write out current crontab
+crontab -l > mycron
+#echo new cron into cron file
+echo "*/10 * * * * sudo python3 /usr/local/BGP-Monitor/script/BGP.py >> /dev/null" >> mycron
+#install new cron file
+crontab mycron
 ```
