@@ -12,6 +12,7 @@ sudo apt-get install build-essential -y
 sudo apt-get install postgresql postgresql-contrib -y
 sudo apt install default-jdk -y
 sudo apt install python3-pip -y
+sudo apt install unzip -y
 sudo apt-get install autoconf
 sudo apt-get install libjansson-dev
 export KAFKA_LIBS="-L/usr/lib/x86_64-linux-gnu -lrdkafka"
@@ -25,7 +26,9 @@ pip3 install virtualenv
 * Clone project from git
 ```
 cd /usr/local
-git clone https://github.com/MasoudKhz/BGP-Monitor.git
+wget https://github.com/MasoudKhz/BGP-Monitor/archive/refs/heads/master.zip
+unzip master.zip
+mv BGP-Monitor-master BGP-Monitor-master
 cd BGP-Monitor
 pip install -r requirements.txt
 ```
