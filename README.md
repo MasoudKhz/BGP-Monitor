@@ -169,6 +169,7 @@ sudo nfacctd -f /usr/local/BGP-Monitor/pmacct/nfacctd.conf
 crontab -l > mycron
 #echo new cron into cron file
 echo "*/10 * * * * sudo python3 /usr/local/BGP-Monitor/script/BGP.py >> /dev/null" >> mycron
+echo "*/10 * * * * sudo python3 /usr/local/BGP-Monitor/script/Kafka_Stream.py >> /dev/null" >> mycron
 #install new cron file
 crontab mycron
 ```
