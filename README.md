@@ -51,7 +51,7 @@ postgres=# CREATE DATABASE postgres;
 postgres=# CREATE USER postgres WITH PASSWORD 'admin@123456';
 postgres=# GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
 postgres=# ALTER USER pmacct WITH SUPERUSER; 
-postgres=# CREATE TABLE peer_state(peer_ip VARCHAR(20) NOT NULL, state VARCHAR(5) NOT NULL, primary key(peer_ip));
+postgres=# CREATE TABLE peer_state(device_ip VARCHAR(40) NOT NULL, peer_ip VARCHAR(20) NOT NULL, state VARCHAR(5) NOT NULL, primary key(device_ip, peer_ip));
 postgres=# CREATE TABLE kafka(id  SERIAL NOT NULL, PREFIX  VARCHAR(40) NOT NULL, PEER  VARCHAR(40)  NOT NULL, AS_PATH  VARCHAR(300)  NOT NULL, COMMUNITIES  VARCHAR(300)  NOT NULL, LCOMMUNITIES  VARCHAR(300)  NOT NULL, primary key(PREFIX, PEER, AS_PATH, COMMUNITIES)
 );
 postgres=# CREATE TABLE kafka2(id  SERIAL NOT NULL, device_ip  VARCHAR(50)  NOT NULL, peer_ip  VARCHAR(50)  NOT NULL, peer_as  VARCHAR(50)  NOT NULL, nexthub  VARCHAR(50)   NOT NULL, prefix  VARCHAR(50)   NOT NULL, comm  VARCHAR(500)  NOT NULL, primary key(peer_ip, peer_as, nexthub, PREFIX, comm)
