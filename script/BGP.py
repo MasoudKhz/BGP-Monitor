@@ -12,7 +12,8 @@ from netmiko import ConnectHandler
 from getpass import getpass
 
 #t_c = 0
-
+peer_except = ""
+device_except = ""
 def A_DB(peer, peerasn, prefix, nexthop, device_ip, comm, cursor):
 
 
@@ -86,22 +87,29 @@ def ssh_netmiko(device_ip, peer, conf_s, sleep_1, sleep_2):
     return buf
 
 def ssh_to_device(peer, as_num, device_ip, cursor):      
-    as_num_z = ''.join(as_num)
-    peer_y = ''.join(peer)
-    buf = ssh_param(device_ip, peer, "sh bgp ipv4 unicast neighbors " + str(peer_y) + " advertised-routes",6,3)
-    drop_table(peer, cursor)
-    regex = r"([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\/[0-9]+) +[1-9]+\.[0-9]+\.[0-9]+\.[0-9]+ +([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) +([0-9]+.*)[i|?]"
-    matches = re.finditer(regex, str(buf))
-            
-    for matchNum, match in enumerate(matches, start=1):
-        prefix = match.group(1)
-        nexthop = match.group(2)
-        try:
-            comm = match.group(3)  
-        except:
-            comm = "-"
-        A_DB(str(peer_y), str(as_num_z), prefix, str(nexthop), device_ip, comm, cursor)
+    global peer_except
+    global device_except
+    peer_except = peer
+    device_except = device_ip
 
+    try:
+        as_num_z = ''.join(as_num)
+        peer_y = ''.join(peer)
+        buf = ssh_param(device_ip, peer, "sh bgp ipv4 unicast neighbors " + str(peer_y) + " advertised-routes",6,3)
+        drop_table(peer, cursor)
+        regex = r"([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\/[0-9]+) +[1-9]+\.[0-9]+\.[0-9]+\.[0-9]+ +([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) +([0-9]+.*)[i|?]"
+        matches = re.finditer(regex, str(buf))
+
+        for matchNum, match in enumerate(matches, start=1):
+            prefix = match.group(1)
+            nexthop = match.group(2)
+            try:
+                comm = match.group(3)  
+            except:
+                comm = "-"
+            A_DB(str(peer_y), str(as_num_z), prefix, str(nexthop), device_ip, comm, cursor)
+    except:
+        peer_state_set(device_ip, peer,"1")
     peer_state_set(device_ip, peer,"1")
     print("CLOSE" , peer )
 
@@ -181,4 +189,5 @@ try:
 
 
 except (Exception, psycopg2.Error) as error:
+    peer_state_set(device_ip, peer,"1")
     print("Error while fetching data from PostgreSQL", error)
