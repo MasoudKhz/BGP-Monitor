@@ -42,8 +42,8 @@ def drop_table(peer_ip, cursor):
 
 
 def ssh_param(device_ip, peer, conf_s, sleep_1, sleep_2):
-    UN = "masoud"
-    PW = "V5zViG4Uqw%"
+    UN = "..."
+    PW = "..."
     print("----------------------")
     network_devices = [str(device_ip)]
     peer = ''.join(peer)
@@ -66,8 +66,8 @@ def ssh_param(device_ip, peer, conf_s, sleep_1, sleep_2):
 
 
 def ssh_netmiko(device_ip, peer, conf_s, sleep_1, sleep_2):
-    UN = "masoud"
-    PW = "V5zViG4Uqw%"
+    UN = "..."
+    PW = "..."
     print("----------------------")
     network_devices = [str(device_ip)]
     peer = ''.join(peer)
