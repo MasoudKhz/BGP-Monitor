@@ -111,6 +111,8 @@ sudo systemctl enable kafka
 * Set kafka Server IP address for remote connection
 ```
 vim  /usr/local/BGP-Monitor/kafka/config/server.properties
+```
+```
 uncomment below line and set your machine IP address 
 
 advertised.listeners=PLAINTEXT://your.host.name:9092
