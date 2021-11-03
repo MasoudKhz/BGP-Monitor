@@ -108,6 +108,19 @@ sudo systemctl enable zookeeper
 sudo systemctl enable kafka
 ```
 
+* Set kafka Server IP address for remote connection
+```
+vim  /usr/local/BGP-Monitor/kafka/config/server.properties
+uncomment below line and set your machine IP address 
+
+advertised.listeners=PLAINTEXT://your.host.name:9092
+
+to
+
+advertised.listeners=PLAINTEXT://<myActual IP address>:9092
+
+```
+
 * Install Pmacct
 ```
 cd /usr/local/BGP-Monitor/pmacct/
