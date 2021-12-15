@@ -28,7 +28,7 @@ pip3 install virtualenv
 cd /usr/local
 wget https://github.com/MasoudKhz/BGP-Monitor/archive/refs/heads/master.zip
 unzip master.zip
-mv BGP-Monitor-master BGP-Monitor-master
+mv BGP-Monitor-master BGP-Monitor
 cd BGP-Monitor
 pip install -r requirements.txt
 ```
@@ -108,6 +108,21 @@ sudo systemctl enable zookeeper
 sudo systemctl enable kafka
 ```
 
+* Set kafka Server IP address for remote connection
+```
+vim  /usr/local/BGP-Monitor/kafka/config/server.properties
+```
+```
+uncomment below line and set your machine IP address 
+
+advertised.listeners=PLAINTEXT://your.host.name:9092
+
+to
+
+advertised.listeners=PLAINTEXT://<myActual IP address>:9092
+
+```
+
 * Install Pmacct
 ```
 cd /usr/local/BGP-Monitor/pmacct/
@@ -165,7 +180,7 @@ sudo nfacctd -f /usr/local/BGP-Monitor/pmacct/nfacctd.conf
 ```
 * SET retention time of Kafka
 ```
-/usr/local/BGP-Monitor/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
+/usr/local/BGP-Monitor/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=3600000 
 ```
 * **Edit Crontab**
 ```
