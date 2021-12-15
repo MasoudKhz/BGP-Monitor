@@ -180,7 +180,7 @@ sudo nfacctd -f /usr/local/BGP-Monitor/pmacct/nfacctd.conf
 ```
 * SET retention time of Kafka
 ```
-/usr/local/BGP-Monitor/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=60000 
+/usr/local/BGP-Monitor/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic pmacct.bgp --config retention.ms=3600000 
 ```
 * **Edit Crontab**
 ```
