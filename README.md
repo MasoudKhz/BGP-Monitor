@@ -28,7 +28,7 @@ pip3 install virtualenv
 cd /usr/local
 wget https://github.com/MasoudKhz/BGP-Monitor/archive/refs/heads/master.zip
 unzip master.zip
-mv BGP-Monitor-master BGP-Monitor-master
+mv BGP-Monitor-master BGP-Monitor
 cd BGP-Monitor
 pip install -r requirements.txt
 ```
